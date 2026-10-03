@@ -25,6 +25,8 @@ Los equipos remotos no pueden saber en qué trabaja cada persona sin interrumpir
 | empiezo o termino una tarea | dejarlo reflejado en dos clics | que nadie me pregunte cómo voy |
 | llego por la mañana o vuelvo de una reunión | abrir la lista y verla al día | saber qué hay sin esperar a la daily |
 
+[SUPUESTO] Estos jobs salen del caso de estudio y del alcance, no de entrevistas a usuarios reales.
+
 ## 3. Propuesta de valor
 
 Una única lista de tareas compartida, ya abierta, que dice quién lleva qué y cuyos cambios ven todos al instante, sin refrescar. Actualizarla cuesta dos clics, sin campos obligatorios y sin decidir sprint ni estimación.
@@ -51,7 +53,7 @@ Una única lista de tareas compartida, ya abierta, que dice quién lleva qué y 
 |---|---|
 | Resumen de «qué se ha movido» | Es una comodidad, no la decisión. Si la lista está al día, al abrirla ya se ve el estado. Se añade si el equipo lo pide. |
 | Notificaciones push | Un aviso interrumpe, y justo eso queremos evitar. |
-| Presencia («quién está conectado») | Es vigilancia y no cambia ninguna decisión. Rechazado a propósito. |
+| Presencia («quién está conectado») e indicadores de actividad de las personas | Es vigilancia y no cambia ninguna decisión. Rechazado a propósito. |
 | Estado derivado de Git/PRs, CI o calendario; integraciones u OAuth de terceros | Es otro producto. Primero se valida que la gente mantiene el estado a mano. |
 | Convivir con otro gestor o importar sus tareas | Obliga a la doble actualización, que es como muere esta categoría. |
 | Sprints, estimaciones, épicas, backlog priorizado e informes | Quien los necesita no es nuestro usuario. |
@@ -73,26 +75,28 @@ Una única lista de tareas compartida, ya abierta, que dice quién lleva qué y 
 - **RF-1.** Una persona puede crear su cuenta e iniciar y cerrar sesión. *(Ya existe en el repo.)*
 - **RF-2.** Solo las personas con sesión iniciada pueden ver o modificar tareas.
 - **RF-3.** [SUPUESTO] Solo pueden entrar al espacio las personas invitadas, no cualquiera que se registre. Hoy el registro es abierto; esta regla está pendiente de decidir antes de abrirlo a un equipo real.
-- **RF-4.** Cada persona se identifica por su nombre dentro del espacio, para que se sepa quién lleva cada tarea.
+- **RF-4.** [SUPUESTO] Cada persona se identifica por su nombre dentro del espacio, para que se sepa quién lleva cada tarea.
+- **RF-4b.** La sesión se mantiene al recargar la página y solo termina cuando la persona la cierra o caduca. *(Ver la pantalla de acceso actual para el comportamiento existente.)*
 
 ### E2 · Gestión de tareas
 
-- **RF-5.** Cualquier persona puede crear una tarea indicando solo un título. No hay otros campos obligatorios.
+- **RF-5.** Cualquier persona puede crear una tarea indicando solo un título. No hay otros campos obligatorios. [SUPUESTO] Evitar el choque del episodio depende de que el equipo describa las tareas con detalle suficiente; es conducta del equipo, no una función, y un título mínimo no lo garantiza.
 - **RF-6.** La lista muestra, para cada tarea, su título, quién la lleva y en qué punto está.
-- **RF-7.** Una tarea puede no tener responsable. La lista distingue a simple vista las tareas libres de las cogidas.
+- **RF-7.** Una tarea puede no tener responsable. La lista presenta las tareas libres y las cogidas con una diferencia visible sin abrir ninguna tarea. Se verifica mostrando la lista a una persona nueva, que debe señalar cuáles están libres sin ayuda.
 - **RF-8.** Cualquier persona puede asignarse una tarea libre, dejarla libre de nuevo o cambiar su punto, en no más de dos clics desde la lista abierta, sin abrir otra pantalla.
 - **RF-9.** [SUPUESTO] Una tarea tiene un único responsable a la vez.
 - **RF-10.** [SUPUESTO] El punto de una tarea se elige entre tres opciones: por hacer, en curso y hecha.
-- **RF-11.** Cualquier persona puede editar el título de una tarea y eliminarla.
+- **RF-8b.** El punto y el responsable los cambia la persona que hace la tarea, en segundos; no se derivan de ninguna otra fuente.
+- **RF-11.** [SUPUESTO] Cualquier persona puede editar el título de una tarea y eliminarla.
 - **RF-12.** Todas las personas ven las mismas tareas y pueden modificar cualquiera, sin permisos por rol.
 - **RF-13.** [SUPUESTO] Las tareas hechas dejan de ocupar la vista principal, pero siguen accesibles. Falta decidir cuánto tiempo.
 
 ### E3 · Actividad del equipo
 
 - **RF-14.** Cuando alguien crea, edita, asigna, cambia de punto o elimina una tarea, el resto de personas con la lista abierta ven el cambio sin refrescar la página.
-- **RF-15.** Si la pantalla pierde la conexión con el sistema, la persona lo ve y entiende que la lista puede estar desactualizada. Al recuperarla, la lista queda al día sin acción manual.
+- **RF-15.** Si la pantalla pierde la conexión con el sistema, aparece un aviso visible de que la lista puede estar desactualizada. Al recuperarla, el aviso desaparece y la lista queda al día sin acción manual.
 - **RF-16.** [SUPUESTO] Cada tarea muestra cuándo se modificó por última vez, para detectar estados viejos. Esto es una marca de la tarea, no un indicador de actividad de personas, y hay que confirmarlo contra la exclusión de indicadores de actividad.
-- **RF-17.** FlowSync no muestra quién está conectado ni qué hace cada persona fuera de sus tareas, y no envía notificaciones push.
+- **RF-17.** FlowSync no muestra una indicación de si una persona está conectada y no envía notificaciones push. Se verifica revisando las pantallas y los canales de salida.
 
 ## 7. Requisitos no funcionales
 
@@ -100,7 +104,7 @@ Una única lista de tareas compartida, ya abierta, que dice quién lleva qué y 
 - **RNF-2. Frescura.** El cambio de una persona aparece en las pantallas abiertas de las demás en un tiempo que no obliga a nadie a refrescar. [SUPUESTO] Objetivo inicial: pocos segundos; la cifra se fija al diseñar.
 - **RNF-3. Consistencia.** Si dos personas cambian la misma tarea a la vez, ambas acaban viendo el mismo resultado. [SUPUESTO] Se acepta que gane el último cambio.
 - **RNF-4. Privacidad.** Solo las personas del espacio ven sus tareas. Los datos de acceso no se muestran a otras personas ni quedan en registros visibles.
-- **RNF-5. Idioma.** La interfaz y los mensajes de error están en castellano, como en la pantalla actual de acceso.
+- **RNF-5. [SUPUESTO] Idioma.** La interfaz y los mensajes de error están en castellano, como en la pantalla actual de acceso.
 - **RNF-6. Escala.** El MVP funciona con 3 a 10 personas. [SUPUESTO] Una lista de decenas de tareas sigue siendo legible; no se promete más.
 - **RNF-7. Usabilidad.** Sin formación previa, una persona nueva crea una tarea y se la asigna la primera vez que abre la lista. Se verifica con una prueba con personas del caso de estudio.
 
@@ -110,7 +114,7 @@ Una única lista de tareas compartida, ya abierta, que dice quién lleva qué y 
 - **Auth ya existe:** registro, inicio y cierre de sesión y perfil. Cubre solo identidad; las tareas, el estado compartido y la actualización sin refrescar están por construir.
 - **Registro abierto hoy:** la regla de acceso de RF-3 no está implementada.
 - **Un único espacio:** no hay entidad de equipo, de modo que no se puede separar a personas en grupos.
-- **Sustituir, no convivir:** no se importan tareas de otro gestor, así que el caso de estudio empieza con la lista vacía. [SUPUESTO] Es aceptable empezar en limpio.
+- **Sustituir, no convivir:** no se importan tareas de otro gestor. El coste de migrar queda sin resolver: qué pasa el primer día con las tareas en curso del gestor anterior es una decisión pendiente.
 - **Caso de estudio:** no es un cliente real, por lo que las hipótesis no se contrastan con un equipo que haya aceptado usarlo.
 
 ## 9. Métricas de éxito
