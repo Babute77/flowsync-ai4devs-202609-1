@@ -135,7 +135,7 @@ La URL de la API sale de `VITE_API_URL` (ver `frontend/.env.example`); por defec
 - `AGENTS.md` solo apunta a este fichero; el subagente `adversarial-reviewer` (`.claude/agents/`) lo usa como referencia de convenciones.
 - Skills del proyecto en `.claude/skills/`: `commit` (commit convencional de lo staged) y `priority-ticket` (trae el ticket de mayor prioridad de Jira).
 - `.mcp.json` declara el MCP de Atlassian/Jira (requiere autenticarse).
-- `docs/prd/` contiene el enunciado/alcance del MVP; `prompts.md` es la plantilla donde el ejercicio del módulo registra los prompts lanzados; el `README.md` es la lección del ejercicio (generada, no se edita a mano).
+- `README.md` es la lección del ejercicio, con el enunciado (generada, no se edita a mano); `prompts.md` es la plantilla donde se registran los prompts lanzados; `docs/prd/` (la crea quien hace el ejercicio) aloja su entregable `alcance-mvp-<iniciales>.md`.
 
 ## Reglas de proceso
 - Antes de tocar código: crear una rama nueva (`git checkout -b feat/<slug>`). Nunca commitear directo en `main`/`s1/start`.
