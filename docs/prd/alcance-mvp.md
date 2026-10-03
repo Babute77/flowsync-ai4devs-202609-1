@@ -21,7 +21,7 @@ La daily **no desaparece entera**: desaparece la ronda de «¿en qué estás?».
 
 ## 3. Propuesta de valor
 
-Una única lista de tareas compartida, ya abierta, que dice quién lleva qué y se actualiza sola. Actualizarla cuesta dos clics, sin campos obligatorios y sin decidir sprint ni estimación.
+Una única lista de tareas compartida, ya abierta, que dice quién lleva qué y cuyos cambios ven todos al instante, sin refrescar. Actualizarla cuesta dos clics, sin campos obligatorios y sin decidir sprint ni estimación.
 
 **La decisión que cambia:** no empezar algo que otra persona ya está tocando, y elegir lo siguiente sabiendo qué está libre. Si la única respuesta fuera «sentirse informado», el tiempo real no valdría lo que cuesta.
 
