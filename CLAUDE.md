@@ -13,6 +13,10 @@ La rama `s1/start` es el punto de partida de los alumnos; `main` es la base del 
 
 ## Comandos
 
+### Desde la raíz (`Makefile`)
+
+`make setup` (install + `.env` de ambos paquetes + `APP_KEY` + migraciones), `make start` (backend y frontend a la vez; solo uso interactivo, no desde scripts/CI), `make clean` (borra `node_modules` y la SQLite). Requiere **Node 24+** (con 20 no arranca; con 22 da avisos `EBADENGINE`) y GNU Make. Las recetas son POSIX: en Windows se usa **WSL** (clonando en `~/`, no en `/mnt/c`); en PowerShell `make` falla, y ahí hay que lanzar los comandos de abajo a mano.
+
 ### Backend (`cd backend`)
 
 ```bash
@@ -125,6 +129,13 @@ Organización de `src/`:
 - `pages/`, `components/` — pantallas y componentes propios.
 
 La URL de la API sale de `VITE_API_URL` (ver `frontend/.env.example`); por defecto `http://localhost:3333`.
+
+## Harness y documentación del repo
+
+- `AGENTS.md` solo apunta a este fichero; el subagente `adversarial-reviewer` (`.claude/agents/`) lo usa como referencia de convenciones.
+- Skills del proyecto en `.claude/skills/`: `commit` (commit convencional de lo staged) y `priority-ticket` (trae el ticket de mayor prioridad de Jira).
+- `.mcp.json` declara el MCP de Atlassian/Jira (requiere autenticarse).
+- `docs/prd/` contiene el enunciado/alcance del MVP; `prompts.md` es la plantilla donde el ejercicio del módulo registra los prompts lanzados; el `README.md` es la lección del ejercicio (generada, no se edita a mano).
 
 ## Reglas de proceso
 - Antes de tocar código: crear una rama nueva (`git checkout -b feat/<slug>`). Nunca commitear directo en `main`/`s1/start`.
