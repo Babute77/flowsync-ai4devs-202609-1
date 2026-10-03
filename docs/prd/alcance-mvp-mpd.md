@@ -76,7 +76,7 @@ De más a menos grave:
 3. **El episodio puede no resolverse.** Evita el choque solo si las tareas se describen con el detalle suficiente para que se note que dos tocan lo mismo. El producto no sabe de módulos: es un supuesto de conducta del equipo, no una función.
 4. **Tensión entre «tiempo real» y «resumen que espera».** Para volver de una reunión y ver qué se movió, el tiempo real aporta poco. Solo se justifica por la decisión de no empezar algo que otro ya está tocando. Esa decisión es la que debe defender el coste.
 5. **Reclamar y liberar tareas.** Si la lista es la cola de trabajo, alguien coge una tarea. Queda por decidir qué pasa con una tarea cogida que nadie toca durante días, porque es otra forma de información vieja.
-6. **Acceso al espacio único.** Con un solo espacio, falta decidir quién puede entrar. Hoy cualquiera puede registrarse. Supuesto provisional: el espacio es de una sola instalación y se entra por invitación.
+6. **Acceso al espacio único.** Con un solo espacio, cualquiera que pueda registrarse vería y editaría todo, y hoy el registro es abierto. Supuesto provisional: el espacio es de una sola instalación y solo entra gente invitada. **La invitación o el cierre del registro no está resuelta ni incluida en el alcance**: es una decisión pendiente que hay que tomar antes de abrir el producto a un equipo real.
 
 ## Cómo sabremos que funciona
 
@@ -88,4 +88,7 @@ De más a menos grave:
 
 Existen registro, login y perfil. Eso cubre solo identidad. Todo lo que hace de FlowSync un producto está por construir: tareas, estado compartido, resumen de cambios y actualización sin refrescar.
 
-Primer corte útil: tareas con responsable y estado visibles para todos. El tiempo real y el resumen de cambios vienen después y se validan por separado.
+**El MVP son los siete puntos del alcance.** Se entregan en dos cortes, y el segundo solo se hace si el primero se sostiene:
+
+1. **Primer corte:** tareas con responsable y estado visibles para todos (puntos 1 a 4 y 7). Sirve para comprobar el riesgo nº 1: si la lista se mantiene al día sin que nadie obligue.
+2. **Segundo corte:** resumen de cambios y actualización sin refrescar (puntos 5 y 6). Se construye si, tras usar el primer corte, el equipo mantiene la lista al día y sigue habiendo choques o preguntas por chat que el tiempo real evitaría.
