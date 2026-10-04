@@ -95,7 +95,7 @@ Una única lista de tareas compartida, ya abierta, que dice quién lleva qué y 
 
 - **RF-14.** Cuando alguien crea, edita, asigna, cambia de punto o elimina una tarea, el resto de personas con la lista abierta ven el cambio sin tener que recargar ni preguntar.
 - **RF-15.** Si una persona pierde la conexión mientras tiene la lista abierta, aparece un aviso visible de que la lista puede estar desactualizada. Al recuperarla, el aviso desaparece y la lista queda al día sin acción manual.
-- **RF-16.** [SUPUESTO] Cada tarea muestra cuándo se modificó por última vez, para detectar estados viejos. Esto es una marca de la tarea, no un indicador de actividad de personas, y hay que confirmarlo contra la exclusión de indicadores de actividad.
+- **RF-16.** *Retirado.* Mostrar cuándo se modificó por última vez cada tarea es un indicador de actividad, y el fuera de alcance los excluye; el PRD no puede pedirlo y prohibirlo a la vez. Consecuencia declarada: dentro de la lista no hay ningún medio para saber si un estado está viejo. Solo se descubre preguntando a las personas (métrica 3 de la sección 9), y esa comprobación depende de lo que cada una declare.
 - **RF-17.** FlowSync no muestra una indicación de si una persona está conectada y no envía notificaciones push. Se verifica revisando que ninguna pantalla muestra ese dato y que FlowSync no envía avisos fuera de la lista.
 
 ## 7. Requisitos no funcionales
@@ -132,3 +132,34 @@ Todos los umbrales son **[SUPUESTO]**: se fijan con el equipo del caso de estudi
 **Señal de fracaso global:** vuelven a preguntar por chat porque no se fían de la lista.
 
 **Decisión asociada [SUPUESTO]:** si la lista se queda vieja desde la primera semana, se revisa si actualizar cuesta de verdad dos clics antes de añadir funciones; no se añaden avisos para forzar el hábito.
+
+## 10. Puntos abiertos
+
+Salen de la revisión adversarial del PR. No se resuelven en este documento: cada uno lleva el argumento resumido y lo que haría falta para decidirlo. Los dos primeros bloques son decisiones de producto; el tercero se puede cerrar durante la construcción.
+
+Resuelto en el propio documento: RF-16 se retiró porque contradecía el fuera de alcance (ver sección 6).
+
+### Decisiones de producto
+
+- **PA-1 · Quién mantiene la lista al día.** Todo el valor depende de que cada persona actualice a mano y sin obligación; con una sola persona que no lo haga, la lista miente. Hace falta un piloto corto con el equipo para medir qué proporción de tareas se mantiene al día, y decidir después si hace falta alguna palanca sobre el hábito (hoy no hay ninguna: sin avisos y sin obligar).
+- **PA-2 · Nivel de detalle de las tareas frente al episodio.** El choque fue «dos personas en el mismo módulo» y una tarea con solo título no dice qué módulo toca. Hace falta reconstruir el episodio con tareas reales del equipo y ver si la lista lo habría evitado, y decidir si basta con la conducta del equipo o si la tarea necesita indicar algo más.
+- **PA-3 · Si el tiempo real entra en el MVP (E3).** Con 3 husos horarios casi nadie tiene la lista abierta a la vez; puede importar más que el estado guardado sea fiable al abrirla que verlo cambiar en vivo. Hace falta saber cuántas horas de solape tiene el equipo y probar una lista que se actualiza solo al recargar.
+- **PA-4 · Abandono del gestor anterior y primer día.** Sin importar tareas, el equipo debe decidir qué hace con lo que tiene en curso. Si siguen actualizando los dos, FlowSync pasa a ser la segunda fuente. Hace falta un acuerdo explícito del equipo y un plan para el día 1.
+- **PA-5 · Regla de acceso (RF-3).** Hoy el registro es abierto y RF-2 y RNF-4 prometen privacidad. Decidir quién entra (invitación, enlace, lista cerrada) y quién invita, porque eso introduce un rol que choca con los roles planos. Hace falta decidir también si un equipo real puede abrir el producto antes de que esto esté resuelto.
+- **PA-6 · Quién puede cambiar las tareas de otra persona (RF-8, RF-9, RF-12).** Si cualquiera puede soltar o reasignar, «quién la lleva» deja de ser fiable y no queda rastro. Hace falta preguntar al equipo si lo acepta y qué esperaría ver cuando alguien le quita una tarea.
+- **PA-7 · Qué se queda en el MVP entre los requisitos añadidos.** Editar y eliminar (RF-11), ocultar las hechas pero mantenerlas accesibles (RF-13), sesión caducada sin perder trabajo (RF-4b), re-sincronizar tras perder la conexión (RF-15) y mostrar el nombre (RF-4) no vienen del alcance consensuado. Hace falta un criterio de necesidad por cada job de la sección 2 para decidir cuáles cuentan.
+- **PA-8 · Marca de última modificación (antes RF-16).** Ayudaría a detectar estados viejos, pero es un indicador de actividad. Hace falta decidir si la exclusión admite una marca de la tarea que no identifique a la persona.
+- **PA-9 · Nombre de la épica E3.** «Actividad del equipo» promete justo lo que se excluye. Decidir si se renombra y a qué.
+- **PA-10 · Qué cuenta como «dos clics» (RF-8).** Cogerse una tarea y marcarla en curso son dos acciones. Hace falta acordar un recorrido concreto y qué se considera fallo.
+- **PA-11 · Estado inicial de una tarea nueva (RF-5, RF-7, RF-10).** Define qué es «libre». Hace falta decidir con qué responsable y en qué punto nace una tarea.
+- **PA-12 · Métricas de éxito (sección 9).** Faltan línea base previa, quién fija los umbrales y cuándo, y una medida de adopción tomada desde el producto (por ejemplo, proporción de tareas con responsable). Las actuales dependen de la observación y de lo que declaren las personas, y con 6 personas el ruido es alto. Hace falta recoger una o dos semanas de línea base antes de entregar nada.
+
+### Subsanables durante la construcción
+
+- **RF-7.** Falta el umbral de aprobado y el tamaño de la lista de la prueba.
+- **RF-13.** Falta cuánto tiempo siguen visibles las tareas hechas.
+- **RF-14 y RNF-2.** Falta la cifra de frescura; mientras tanto, la sección 3 dice «al instante» y RNF-2 solo promete unos segundos. Se alinean al fijar la cifra.
+- **RF-15.** Faltan el tiempo sin conexión tras el que aparece el aviso y el tiempo de resincronización.
+- **RF-17.** «Avisos fuera de la lista» es ambiguo respecto al aviso de sesión caducada de RF-4b.
+- **RNF-3.** Falta definir qué pasa con una edición concurrente tras un borrado.
+- **RNF-6 y RNF-7.** «Legible» y «la primera vez» no tienen medida; se concretan al preparar la prueba con el caso de estudio.
