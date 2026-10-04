@@ -1,6 +1,6 @@
 # PRD — FlowSync MVP
 
-Base: [`alcance-mvp.md`](alcance-mvp.md). Este documento es de producto: no define modelo de datos, endpoints, arquitectura ni diagramas. Todo lo que no está respaldado por el alcance consensuado ni por el estado del repo se marca como **[SUPUESTO]**.
+Base: [`alcance-mvp-mpd.md`](alcance-mvp-mpd.md). Este documento es de producto: no define modelo de datos, endpoints, arquitectura ni diagramas. Todo lo que no está respaldado por el alcance consensuado ni por el estado del repo se marca como **[SUPUESTO]**.
 
 ## 1. Problema y contexto
 
