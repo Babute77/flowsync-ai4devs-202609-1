@@ -4,7 +4,8 @@ Backlog construido para las dos historias de E2 que ya tienen criterios de acept
 
 ## 1. Cómo leerlo
 
-- **Fuentes:** historias [`us-fechas-vencimiento.md`](E2-gestion-tareas/us-fechas-vencimiento.md) (FS-118) y [`us-filtrar-por-estado.md`](E2-gestion-tareas/us-filtrar-por-estado.md) (FS-142); tickets en [`tickets-fs-118.md`](E2-gestion-tareas/tickets-fs-118.md) y [`tickets-fs-142.md`](E2-gestion-tareas/tickets-fs-142.md), que incluyen además la trazabilidad de cada criterio. Si hay diferencias, mandan los ficheros de cada historia.
+- **Fuentes:** historias [`us-fechas-vencimiento.md`](E2-gestion-tareas/us-fechas-vencimiento.md) (FS-118) y [`us-filtrar-por-estado.md`](E2-gestion-tareas/us-filtrar-por-estado.md) (FS-142); tickets en [`tickets-fs-118.md`](E2-gestion-tareas/tickets-fs-118.md) y [`tickets-fs-142.md`](E2-gestion-tareas/tickets-fs-142.md), que incluyen además la trazabilidad de cada criterio. Los identificadores HU-n y FA-n de la matriz, y las referencias RF, RNF, PA y «sección n», están en [`historias-e2.md`](../prd/historias-e2.md) y [`flowsync-mvp.md`](../prd/flowsync-mvp.md). Si hay diferencias, mandan los ficheros `us-*.md` para los criterios y los `tickets-*.md` para los tickets.
+- **Numeración de decisiones.** «Decisión n» es la decisión pendiente de la historia a la que pertenece el ticket (FS-118 o FS-142) y no es comparable entre historias: la decisión 2 de FS-118 es la fecha ya pasada y la de FS-142 es qué pasa con una tarea que deja de encajar en el filtro. El texto de cada una está al final de su fichero `us-*.md`. PA-n son los puntos abiertos del PRD.
 - **Los tickets heredan los criterios de su historia.** No añaden criterios nuevos, y la Definition of Done es una checklist de cómo se entrega.
 - **Nombran la capa, no diseñan.** Los tipos de dato, las rutas y los códigos de respuesta se deciden al implementar.
 - **Sin estimaciones.** No hay horas ni puntos.
@@ -389,7 +390,7 @@ FS-118.3  Regla de «vencida»    FS-118.4  API: poner, cambiar y quitar
    ▼
 FS-118.5  API: lectura con fecha y vencida (necesita «eliminar tarea» de E2)
    ├──► FS-118.8  UI: mostrar vencidas (necesita lista de E2) ──► FS-118.9  UI: pasa a vencida con la lista abierta
-   │                                                               (también bloquea FS-118.3 y el mecanismo de E3)
+   │                                                               (depende también de FS-118.3 y del mecanismo de E3)
    ├──► FS-118.12 Test: reglas de tiempo (también FS-118.3)
    └──► FS-118.13 Test: vencida y eliminación (también FS-118.3 y FS-118.6)
 ```
@@ -399,14 +400,15 @@ FS-118.5  API: lectura con fecha y vencida (necesita «eliminar tarea» de E2)
 | 0 | Base de E2 y decisión 0 | Todo lo demás |
 | 1 | FS-118.1 | FS-118.2 |
 | 2 | FS-118.2 | FS-118.3 y FS-118.4 |
-| 3 | FS-118.4 y FS-118.3 en paralelo | Ver las notas siguientes |
+| 3 | FS-118.4 y FS-118.3 en paralelo | FS-118.3 puede esperar a las decisiones 1, 3 y 6 de FS-118 (ver notas) |
 | 4 | FS-118.7, FS-118.11 (tras .4) y FS-118.5 (tras .3) | La parte visible |
 | 5 | FS-118.8, FS-118.10, FS-118.6 y FS-118.12 | Cierre de UI y tiempo |
 | 6 | FS-118.9 y FS-118.13 | Lo último |
 
-- **Camino crítico:** FS-118.1 → .2 → .3 → .5 → .8 → .9.
+- **Aristas que el dibujo no muestra:** FS-118.3 → .9, .12 y .13; FS-118.5 → .12; FS-118.6 → .13.
+- **Camino crítico interno:** FS-118.1 → .2 → .3 → .5 → .8 → .9. No incluye las dependencias externas.
 - **Decisiones que bloquean FS-118.3:** 1 (huso del «hoy»), 3 (desde cuándo es vencida) y 6 (horario de verano y viajes). Si siguen abiertas al llegar a la ola 3, se empieza por FS-118.4 y su rama (.7 y .11), que solo espera a la decisión 2.
-- **Dependencias de E3:** FS-118.6, .9 y .10 necesitan el mecanismo de actualización sin recargar y el aviso de conexión. Son las tres que se aplazan sin bloquear el resto.
+- **Dependencias de E3:** FS-118.6, .9 y .10 necesitan el mecanismo de actualización sin recargar y el aviso de conexión. Aplazarlas no bloquea FS-118.1 a .5, .7, .8 ni .11, pero deja sin hacer FS-118.13, que depende de .6, y con él los tests de CA-22.
 - **Dependencia externa de FS-118.5:** «eliminar tarea» de E2, historia sin ID todavía.
 
 ### FS-142
@@ -430,16 +432,16 @@ FS-142.3  UI: aplicar y quitar el filtro (necesita lista de E2)
    └──► FS-142.8  UI: ante la falta de conexión (necesita aviso de conexión de E3)
 ```
 
-Orden: FS-142.1, FS-142.2, luego FS-142.3 y FS-142.7 en paralelo, y después FS-142.4, .5, .6 y .8. Si se decide filtrar solo en la pantalla, FS-142.2 y FS-142.7 se reducen o desaparecen.
+La decisión previa de capa bloquea FS-142.1. Orden: FS-142.1, FS-142.2, luego FS-142.3 y FS-142.7 en paralelo, y después FS-142.4, .5, .6 y .8. Si se decide filtrar solo en la pantalla, FS-142.2 y FS-142.7 se reducen o desaparecen.
 
 ## 6. Matriz impacto frente a complejidad
 
-Las historias de E2, las que quedaron fuera del MVP y la sincronización en tiempo real de E3. Es cualitativa: el **impacto** se mide contra la decisión que el producto quiere cambiar (no empezar lo que otra persona ya está tocando y saber qué está libre) y contra el riesgo nº 1, que la lista se quede vieja. La **complejidad** sale de los tickets, las decisiones abiertas y las dependencias externas.
+Las historias de E2, las que quedaron fuera del MVP y la sincronización en tiempo real de E3. Es cualitativa: el **impacto** se mide contra la decisión que el producto quiere cambiar (no empezar lo que otra persona ya está tocando y saber qué está libre) y contra el riesgo nº 1, que la lista se quede vieja. La **complejidad** sale de los tickets, las decisiones abiertas y las dependencias externas; la de los ítems fuera del MVP no tiene tickets y es un juicio aproximado.
 
 | | **Baja complejidad** | **Alta complejidad** |
 |---|---|---|
 | **Alto impacto** | **Quick wins:** HU-1 crear, HU-2 ver la lista, HU-3 libre frente a cogida, HU-4 cogerme una tarea, HU-6 cambiar el punto | **Apuesta grande:** E3 sincronización en tiempo real |
-| **Impacto medio o bajo** | **Relleno:** HU-5 soltar, HU-9 corregir título, HU-10 eliminar, HU-11 hechas fuera de la vista, FS-142 filtrar por estado (condicionado) | **Evitar o aplazar:** FS-118 fecha de vencimiento y vencidas, HU-12 cambiar responsable de otra persona |
+| **Impacto medio o bajo** | **Relleno:** HU-5 soltar, HU-9 corregir título, HU-10 eliminar, HU-11 hechas fuera de la vista, FS-142 filtrar por estado (condicionado, ver abajo) | **Evitar o aplazar:** FS-118 fecha de vencimiento y vencidas, HU-12 cambiar responsable de otra persona |
 
 ### Fuera del MVP
 
@@ -456,20 +458,22 @@ Están por decisión y no entran en el orden de backlog.
 
 ### Por qué cada posición
 
-- **Los quick wins son el ciclo básico.** Crear, ver, cogerse y cambiar el punto son la lista compartida. Sin ellos no hay producto y son la parte más barata. HU-3 sale casi gratis con HU-2.
-- **E3 es la apuesta grande, no un quick win.** Su impacto es alto solo si el equipo tiene la lista abierta a la vez, y con 3 husos horarios eso es dudoso (PA-3). Depende de un mecanismo que aún no existe y arrastra a FS-118.6, .9 y .10.
-- **FS-118 es la peor relación valor-coste.** Tiene 13 tickets, tres decisiones de tiempo abiertas y no responde a ningún job de la sección 2 del PRD. Está dentro del MVP por decisión, y la matriz sugiere dejarla para el final.
-- **FS-142 es un quick win condicional.** Si se filtra solo en la pantalla es barato; si se filtra en el servidor y hay que decidir su relación con RF-13, pasa a «relleno».
+- **Los quick wins son el ciclo básico.** Crear, ver, cogerse y cambiar el punto son la lista compartida. Sin ellos no hay producto y son la parte más barata. HU-3 sale casi gratis con HU-2. Están condicionados: HU-4 depende de RF-9 y HU-6 de RF-10, que son [SUPUESTO] del PRD.
+- **E3 es la apuesta grande, no un quick win.** Su impacto es alto solo si el equipo tiene la lista abierta a la vez, y con 3 husos horarios eso está en duda (PA-3). Depende de un mecanismo que aún no existe y arrastra a FS-118.6, .9 y .10.
+- **FS-118 es, a juicio de esta matriz, la de peor relación valor-coste.** Tiene 13 tickets, tres decisiones de tiempo abiertas y no responde de forma directa a ninguno de los jobs de la sección 2 del PRD. Está dentro del MVP por decisión, y la matriz sugiere dejarla para el final.
+- **FS-142 queda en «relleno», condicionado.** Podría subir a quick win si se filtra solo en la pantalla. Y puede resultar innecesario si las decisiones 6 y 7 de FS-142 salen mal: si las hechas ya salen de la vista principal por RF-13, el filtro aporta poco.
 - **HU-12 espera a PA-6.** Cambiar el responsable de una tarea ajena choca con RF-8b y no está decidido.
 
 ## 7. Orden de backlog priorizado
 
-1. **Antes de abrirlo a un equipo real:** E1 acceso (RF-3) y decidir con qué estado nace una tarea (PA-11). Bloquean todo lo demás.
+1. **Previos:** E1 acceso (RF-3) antes de abrirlo a un equipo real, no antes de construir. Decidir con qué estado nace una tarea (PA-11), que define qué es «libre» y condiciona HU-1, HU-3 y FS-142.6.
 2. **Primer corte, el ciclo básico:** HU-1, HU-2 (con HU-3), HU-4 y HU-6. Permite probar el riesgo nº 1 sin tiempo real.
 3. **Puerta de decisión, con datos del piloto:** ¿el equipo mantiene la lista al día (PA-1) y hace falta ver los cambios en vivo (PA-3)? De la respuesta depende si E3 entra.
-4. **Relleno barato:** HU-5, FS-142 si se filtra en cliente, HU-11, HU-10 y HU-9.
+4. **Relleno barato:** HU-5, FS-142 (salvo .5 y .8, que esperan a E3; y sujeto a las decisiones 6 y 7 de FS-142), HU-11, HU-10 y HU-9.
 5. **E3 sincronización en tiempo real,** solo si pasa la puerta.
-6. **FS-118,** al final. Gana urgencia si el equipo la pide con datos; entonces conviene cerrar antes las decisiones 1, 3 y 6.
+6. **FS-118,** al final (salvo .6, .9 y .10, que esperan a E3). Gana urgencia si el equipo la pide con datos; entonces conviene cerrar antes las decisiones 1, 3 y 6.
 7. **HU-12,** solo después de resolver PA-6.
+
+**Dependencias de E3 en el orden.** FS-142.5 y FS-142.8, y FS-118.6, .9 y .10, no pueden construirse antes de E3. Si E3 pasa la puerta, entran con ella; si no, esos cinco tickets quedan fuera y hay que decidir aparte qué pasa con RF-14 (ver cambios sin recargar) y RF-15 (aviso de conexión).
 
 **Qué cambiaría con datos.** Si el piloto muestra que la lista se queda vieja, E3 sube, porque la frescura sería el problema. Si muestra que se mantiene al día sin tiempo real, E3 baja y puede salir del MVP.
