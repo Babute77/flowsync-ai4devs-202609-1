@@ -72,11 +72,11 @@ Una única lista de tareas compartida, ya abierta, que dice quién lleva qué y 
 
 ### E1 · Cuentas y acceso
 
-- **RF-1.** Una persona puede crear su cuenta e iniciar y cerrar sesión. *(Ya existe en el repo.)*
+- **RF-1.** Una persona puede crear su cuenta, iniciar sesión y cerrarla.
 - **RF-2.** Solo las personas con sesión iniciada pueden ver o modificar tareas.
 - **RF-3.** [SUPUESTO] Solo pueden entrar al espacio las personas invitadas, no cualquiera que se registre. Hoy el registro es abierto; esta regla está pendiente de decidir antes de abrirlo a un equipo real.
 - **RF-4.** [SUPUESTO] Cada persona se identifica por su nombre dentro del espacio, para que se sepa quién lleva cada tarea.
-- **RF-4b.** La sesión se mantiene al recargar la página y solo termina cuando la persona la cierra o caduca. *(Ver la pantalla de acceso actual para el comportamiento existente.)*
+- **RF-4b.** Si una persona recarga o vuelve a abrir FlowSync, sigue dentro sin volver a identificarse. Solo sale cuando cierra sesión. [SUPUESTO] Si la sesión caduca, se avisa y se pide volver a entrar sin perder lo que se estaba haciendo.
 
 ### E2 · Gestión de tareas
 
@@ -93,18 +93,18 @@ Una única lista de tareas compartida, ya abierta, que dice quién lleva qué y 
 
 ### E3 · Actividad del equipo
 
-- **RF-14.** Cuando alguien crea, edita, asigna, cambia de punto o elimina una tarea, el resto de personas con la lista abierta ven el cambio sin refrescar la página.
-- **RF-15.** Si la pantalla pierde la conexión con el sistema, aparece un aviso visible de que la lista puede estar desactualizada. Al recuperarla, el aviso desaparece y la lista queda al día sin acción manual.
+- **RF-14.** Cuando alguien crea, edita, asigna, cambia de punto o elimina una tarea, el resto de personas con la lista abierta ven el cambio sin tener que recargar ni preguntar.
+- **RF-15.** Si una persona pierde la conexión mientras tiene la lista abierta, aparece un aviso visible de que la lista puede estar desactualizada. Al recuperarla, el aviso desaparece y la lista queda al día sin acción manual.
 - **RF-16.** [SUPUESTO] Cada tarea muestra cuándo se modificó por última vez, para detectar estados viejos. Esto es una marca de la tarea, no un indicador de actividad de personas, y hay que confirmarlo contra la exclusión de indicadores de actividad.
-- **RF-17.** FlowSync no muestra una indicación de si una persona está conectada y no envía notificaciones push. Se verifica revisando las pantallas y los canales de salida.
+- **RF-17.** FlowSync no muestra una indicación de si una persona está conectada y no envía notificaciones push. Se verifica revisando que ninguna pantalla muestra ese dato y que FlowSync no envía avisos fuera de la lista.
 
 ## 7. Requisitos no funcionales
 
-- **RNF-1. Rapidez de la edición.** Cambiar el punto o el responsable de una tarea no exige rellenar ningún campo ni confirmar en un diálogo. Se verifica contando clics.
+- **RNF-1. Rapidez de la edición.** Cambiar el punto o el responsable de una tarea no exige rellenar ningún campo ni confirmar en un paso adicional. Se verifica contando clics.
 - **RNF-2. Frescura.** El cambio de una persona aparece en las pantallas abiertas de las demás en un tiempo que no obliga a nadie a refrescar. [SUPUESTO] Objetivo inicial: pocos segundos; la cifra se fija al diseñar.
-- **RNF-3. Consistencia.** Si dos personas cambian la misma tarea a la vez, ambas acaban viendo el mismo resultado. [SUPUESTO] Se acepta que gane el último cambio.
-- **RNF-4. Privacidad.** Solo las personas del espacio ven sus tareas. Los datos de acceso no se muestran a otras personas ni quedan en registros visibles.
-- **RNF-5. [SUPUESTO] Idioma.** La interfaz y los mensajes de error están en castellano, como en la pantalla actual de acceso.
+- **RNF-3. Consistencia.** Si dos personas cambian la misma tarea a la vez, ambas acaban viendo el mismo resultado. [SUPUESTO] Se acepta que prevalezca el cambio más reciente.
+- **RNF-4. Privacidad.** Solo las personas del espacio ven sus tareas. Los datos de acceso de una persona no los ve nadie más.
+- **RNF-5. [SUPUESTO] Idioma.** Todo lo que ve la persona, incluidos los errores, está en castellano.
 - **RNF-6. Escala.** El MVP funciona con 3 a 10 personas. [SUPUESTO] Una lista de decenas de tareas sigue siendo legible; no se promete más.
 - **RNF-7. Usabilidad.** Sin formación previa, una persona nueva crea una tarea y se la asigna la primera vez que abre la lista. Se verifica con una prueba con personas del caso de estudio.
 
