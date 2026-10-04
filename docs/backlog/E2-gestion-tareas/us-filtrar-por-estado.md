@@ -1,7 +1,8 @@
 # FS-142 · Filtrar por estado
 
 **Identificador:** FS-142  
-**Épica:** E2 «Gestión de tareas»
+**Épica:** E2 «Gestión de tareas»  
+**Referencias (RF, RNF, PA, secciones):** [`docs/prd/flowsync-mvp.md`](../../prd/flowsync-mvp.md)
 
 ## Historia
 
@@ -11,7 +12,7 @@ Como persona del equipo, quiero filtrar la lista por estado, para centrarme en l
 
 **Vocabulario.** En el PRD el estado de una tarea se llama «punto» y sus opciones (por hacer, en curso, hecha) son un [SUPUESTO] (RF-10). Los criterios dicen «estado» y dependen de que esas opciones se confirmen.
 
-**Cómo leerlos.** Igual que en FS-118: la línea *Origen* distingue requisito firme del PRD, [SUPUESTO] del PRD y **[PROPUESTA]** pendiente de revisión. FS-142 sigue «Dentro · sin RF»; el bloque es propuesta hasta que el PRD tenga un RF para el filtro y se cierren las preguntas abiertas.
+**Cómo leerlos.** La línea *Origen* distingue requisito firme del PRD, [SUPUESTO] del PRD y **[PROPUESTA]** pendiente de revisión. FS-142 sigue «Dentro · sin RF»; el bloque es propuesta hasta que el PRD tenga un RF para el filtro y se cierren las decisiones pendientes.
 
 ### Camino feliz
 
@@ -20,7 +21,7 @@ Como persona del equipo, quiero filtrar la lista por estado, para centrarme en l
 - CUANDO filtro por un estado, por ejemplo «por hacer»
 - ENTONCES veo solo las tareas de ese estado y se ve qué filtro tengo aplicado.
 
-**CA-2 · Centrarme en lo pendiente** — *[PROPUESTA]. Pregunta abierta 1.*
+**CA-2 · Centrarme en lo pendiente** — *[PROPUESTA]. Decisión pendiente 1.*
 - DADO una lista con tareas por hacer, en curso y hechas
 - CUANDO pido ver lo pendiente
 - ENTONCES veo las que están por hacer y en curso, sin las hechas.
@@ -28,7 +29,7 @@ Como persona del equipo, quiero filtrar la lista por estado, para centrarme en l
 **CA-3 · Quitar el filtro** — *[PROPUESTA]*
 - DADO que tengo un filtro aplicado
 - CUANDO lo quito
-- ENTONCES vuelvo a ver la lista tal como se ve sin filtro. Si las tareas hechas están fuera de la vista principal (RF-13), siguen fuera. Pregunta abierta 7.
+- ENTONCES vuelvo a ver la lista tal como se ve sin filtro. Si las tareas hechas están fuera de la vista principal (RF-13), siguen fuera. Decisión pendiente 7.
 
 **CA-4 · Se aplica sobre la lista ya abierta** — *[PROPUESTA], en línea con el espíritu de «dos clics» de RF-8*
 - DADO la lista abierta
@@ -69,7 +70,7 @@ Como persona del equipo, quiero filtrar la lista por estado, para centrarme en l
 - CUANDO el cambio hace que la tarea encaje o deje de encajar en mi filtro
 - ENTONCES aparece o desaparece de mi vista sin recargar ni preguntar.
 
-**CA-11 · Cambio de estado de una tarea mía con el filtro puesto** — *[PROPUESTA]. Pregunta abierta 2.*
+**CA-11 · Cambio de estado de una tarea mía con el filtro puesto** — *[PROPUESTA]. Decisión pendiente 2.*
 - DADO que filtro por «por hacer» y paso una de esas tareas a «en curso»
 - CUANDO lo hago
 - ENTONCES la tarea sale de mi vista filtrada y no se pierde: sigue en la lista completa.

@@ -1,7 +1,8 @@
 # FS-118 · Fecha de vencimiento y tareas vencidas
 
 **Identificador:** FS-118  
-**Épica:** E2 «Gestión de tareas»
+**Épica:** E2 «Gestión de tareas»  
+**Referencias (RF, RNF, PA, secciones):** [`docs/prd/flowsync-mvp.md`](../../prd/flowsync-mvp.md)
 
 ## Historia
 
@@ -11,7 +12,7 @@ Como persona del equipo, quiero poner, cambiar y quitar una fecha de vencimiento
 
 **Cómo leerlos.** Cada criterio es una regla de negocio observable. La línea *Origen* dice si sale de un requisito firme del PRD, de un [SUPUESTO] del PRD o si es una **[PROPUESTA]** pendiente de revisión. Una propuesta no es un requisito hasta que se acepte.
 
-**Estado del bloque.** Todo este bloque es propuesta mientras el PRD no tenga un RF para la fecha de vencimiento y no se cierren las preguntas abiertas 1 a 3, porque los criterios sobre «vencida» dependen de ellas.
+**Estado del bloque.** Todo este bloque es propuesta mientras el PRD no tenga un RF para la fecha de vencimiento y no se cierren las decisiones pendientes 1 a 3, porque los criterios sobre «vencida» dependen de ellas.
 
 ### Camino feliz
 
@@ -89,12 +90,12 @@ Como persona del equipo, quiero poner, cambiar y quitar una fecha de vencimiento
 - CUANDO termina el día
 - ENTONCES la tarea pasa a vencida sin que yo recargue.
 
-**CA-15 · Todas las personas ven lo mismo en un equipo con varios husos horarios** — *[PROPUESTA]. Pregunta abierta 1.*
+**CA-15 · Todas las personas ven lo mismo en un equipo con varios husos horarios** — *[PROPUESTA]. Decisión pendiente 1.*
 - DADO un equipo repartido en varios husos horarios
 - CUANDO dos personas miran la misma tarea a la vez
 - ENTONCES ambas la ven como vencida o ambas como no vencida.
 
-**CA-16 · Fecha en el pasado al crearla o ponerla** — *[PROPUESTA]. Pregunta abierta 2.*
+**CA-16 · Fecha en el pasado al crearla o ponerla** — *[PROPUESTA]. Decisión pendiente 2.*
 - DADO que pongo una fecha anterior a hoy
 - CUANDO la guardo
 - ENTONCES se acepta y la tarea aparece como vencida de inmediato, y no se me bloquea.
