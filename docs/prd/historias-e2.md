@@ -58,7 +58,7 @@ No forman parte de E2 en este MVP. Se dejan anotadas para que no se cuelen.
 - **Valiosas:** cada una responde a un job de la sección 2 del PRD. HU-9, HU-10, HU-11 y HU-12 aportan menos y por eso son condicionadas.
 - **Estimables:** FS-118, FS-142 y HU-12 no lo son todavía por las decisiones pendientes que se indican arriba.
 - **Pequeñas:** una acción cada una; editar y eliminar van separadas, y coger y soltar también.
-- **Testables:** las dos primeras y HU-3 ya tienen verificación en RF-5 a RF-7. Para el resto se escriben criterios después.
+- **Testables:** las dos primeras y HU-3 ya tienen verificación en RF-5 a RF-7. FS-118 y FS-142 ya tienen criterios; para el resto se escriben después.
 
 ## Criterios de aceptación — FS-118 «Fecha de vencimiento y tareas vencidas»
 
@@ -228,7 +228,7 @@ No forman parte de E2 en este MVP. Se dejan anotadas para que no se cuelen.
 **CA-3 · Quitar el filtro** — *[PROPUESTA]*
 - DADO que tengo un filtro aplicado
 - CUANDO lo quito
-- ENTONCES vuelvo a ver la lista completa de tareas.
+- ENTONCES vuelvo a ver la lista tal como se ve sin filtro. Si las tareas hechas están fuera de la vista principal (RF-13), siguen fuera. Pregunta abierta 7.
 
 **CA-4 · Se aplica sobre la lista ya abierta** — *[PROPUESTA], en línea con el espíritu de «dos clics» de RF-8*
 - DADO la lista abierta
@@ -242,12 +242,12 @@ No forman parte de E2 en este MVP. Se dejan anotadas para que no se cuelen.
 
 ### Resultados y mensajes
 
-**CA-6 · Ningún estado vacío se confunde con un error** — *[PROPUESTA]*
+**CA-6 · Un estado sin tareas no se confunde con un error** — *[PROPUESTA]; el mensaje está en castellano (RNF-5)*
 - DADO que filtro por un estado en el que no hay ninguna tarea
 - CUANDO miro la lista
 - ENTONCES veo un mensaje que dice que no hay tareas en ese estado, distinto del que se muestra cuando todavía no hay ninguna tarea y distinto de un mensaje de error.
 
-**CA-7 · Estado que no existe** — *[PROPUESTA]. Pedida expresamente: el sistema debe avisar, no mostrar una lista vacía.*
+**CA-7 · Estado que no existe** — *Origen: encargo del equipo (no del PRD): el sistema debe avisar del error, no mostrar una lista vacía. Es [PROPUESTA] solo que se indiquen los estados disponibles. El caso puede darse con un enlace guardado o si las opciones de estado cambian (RF-10); con opciones cerradas y sin enlaces sería hipotético.*
 - DADO que se pide ver las tareas de un estado que no existe, por ejemplo desde un enlace antiguo o guardado
 - CUANDO se intenta aplicar ese filtro
 - ENTONCES se avisa en castellano de que ese estado no existe, se indican los estados disponibles y no se muestra una lista vacía como si no hubiera tareas.
@@ -279,10 +279,10 @@ No forman parte de E2 en este MVP. Se dejan anotadas para que no se cuelen.
 - CUANDO creo una tarea
 - ENTONCES se me indica que se ha creado aunque mi filtro no la muestre, para que no parezca que ha fallado.
 
-**CA-13 · Sin conexión** — *Origen: PRD (RF-15)*
+**CA-13 · Sin conexión** — *Origen: PRD (RF-15) para el aviso y la actualización; [PROPUESTA] para lo que ocurre con el filtro al reconectar*
 - DADO que tengo un filtro aplicado y pierdo la conexión
 - CUANDO miro la lista
-- ENTONCES veo el aviso de que la lista puede estar desactualizada, y al recuperarla se actualiza sin acción manual.
+- ENTONCES veo el aviso de que la lista puede estar desactualizada, y al recuperarla se actualiza sin acción manual y mi filtro sigue aplicado.
 
 ### Relación con otras reglas
 
@@ -309,4 +309,5 @@ No forman parte de E2 en este MVP. Se dejan anotadas para que no se cuelen.
 3. **¿Se conserva el filtro al recargar o al volver otro día?** No hay criterio. Si no se conserva, cada mañana empieza con la lista completa.
 4. **¿Qué filtro ve una persona nueva al abrir la lista?** Se propone la lista completa, sin filtro.
 5. **Fuera de este filtro:** filtrar por persona («mis tareas»), por fecha o por vencidas. No se incluyen; el PRD no los recoge y «mis tareas» roza la vigilancia (sección 4).
+7. **Relación con RF-13.** Si las hechas ya salen de la vista principal, quitar el filtro no devuelve «todas» y el filtro «pendiente» solapa con esa vista. Hay que decidir qué es la lista completa y si FS-142 aporta algo más que RF-13.
 6. **Tensión con «una sola lista».** El job de la sección 2 habla de mirar una sola lista. Hay que decidir si un filtro la fragmenta o si basta con que sea un aviso claro de qué se está viendo.
