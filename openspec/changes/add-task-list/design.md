@@ -27,10 +27,13 @@ Backend AdonisJS 7 / Lucid 22 con esquema autogenerado y frontend React 19 con u
 6. **Listar**: `Task.query().preload('assignee')` **sin `orderBy`** (restricción del change: no hay regla de orden). El frontend no reordena. Sin paginación (RNF-5 prevé ~200 tareas).
 7. **Qué se expone del responsable**: `TaskTransformer` devuelve `id`, `title`, `status` y `assignee: { fullName }`, nada más (sin `id` ni `email` del usuario). Consecuencia asumida: un cliente no puede descubrir ids de personas, por lo que `assigneeId` en la actualización queda como capacidad de API sin uso desde la UI en este change.
 8. **Frontend**:
+   - Traducción de errores del título: `required` (cadena vacía llega como `null` por `convertEmptyStringsToNull`) y `minLength` (blanco tras `trim`) muestran ambos «Escribe un título.».
    - `lib/types.ts`: tipos `Task` y `TaskStatus`; `lib/api.ts`: `listTasks`, `createTask`, `updateTask` (con `PATCH` añadido a `RequestOptions.method`), más etiquetas de error del título/estado en `FIELD_LABELS` y `translate` (el `minLength` de un título en blanco debe leerse «Escribe un título.», no «al menos 1 caracteres»).
    - `pages/tasks-page.tsx`: carga con `useEffect` y token de `useAuth`, estado local de la lista, formulario de un campo (reutiliza `useAuthForm` para errores por campo) y filas con `Card`, `Input`, `Button`, `Alert`, `Label`.
    - Cambio de estado con un `<select>` nativo estilizado con los tokens de Tailwind existentes (no hay componente Select y añadirlo implica dependencia). Actualización optimista con vuelta al valor anterior si la petición falla.
    - Etiquetas Pendiente / En curso / Hecho en un mapa único del frontend.
+   - Una tarea nueva se añade **al final** de la lista local (coincide con el orden incidental de la BD tras recargar). El selector de una fila se desactiva mientras su petición está en vuelo, lo que evita carreras entre dos cambios sobre la misma fila.
+   - Un 401 en cualquier llamada de la pantalla se trata como en el arranque: se descarta la sesión (`clearSession`) y se informa en `/login` con el motivo; para ello el contexto de auth expone una forma de invalidar la sesión (p. ej. `expireSession`).
    - Rutas: `/tasks` dentro de `ProtectedRoute`; `*` y `PublicOnlyRoute` redirigen a `/tasks`; enlaces mutuos entre `/tasks` y `/profile`.
 9. **Sin tests**: la verificación se hace con `typecheck`, `lint`, `build`, `node ace list:routes` y una prueba manual en el navegador.
 

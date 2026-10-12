@@ -39,7 +39,8 @@ FlowSync ya permite entrar y tener cuenta, pero todavía no hay nada que hacer d
 - **Transiciones de estado (PA-7).** Ningún requisito declara qué transiciones son legales; se admite cualquier cambio entre los tres estados, incluida la vuelta atrás desde Hecho, sin confirmación.
 - **Límite de tareas «En curso» por persona (PA-4)** y **qué ve quien tiene abierta una tarea que cambia de manos (PA-8)**: sin decidir y sin efecto en este change.
 - **Coste del gesto (PA-9).** «2 interacciones o menos» no está definido; se cambia el estado con un único gesto en la propia fila.
-- Decisión tomada aquí y no del backlog: el título admite hasta 255 caracteres (PA-9 no fijaba umbral).
+- El título admite hasta 255 caracteres: umbral que PA-9 dejaba sin decidir y que fija este change por decisión confirmada con quien lo encarga; cambiarlo es tocar un número en la validación y en la spec.
+- Un cliente no puede reasignar a otra persona ni distinguir homónimos: la API solo expone el nombre del responsable, por restricción del change. Se retomará cuando haya una lista de personas.
 
 ## Impact
 

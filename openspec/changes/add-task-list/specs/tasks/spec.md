@@ -43,6 +43,11 @@ El sistema SHALL admitir únicamente los estados `pending`, `in_progress` y `don
 - **WHEN** se actualiza una tarea con un estado distinto de `pending`, `in_progress` o `done`, incluidos los nombres en castellano
 - **THEN** la respuesta es un 422 con un error sobre el campo de estado y la tarea no cambia
 
+#### Scenario: No se pueden modificar los estados
+
+- **WHEN** la persona busca en cualquier punto del producto la forma de añadir, renombrar o eliminar un estado
+- **THEN** no existe ninguna y los únicos estados disponibles siguen siendo Pendiente, En curso y Hecho
+
 #### Scenario: Cada tarea está en un solo estado
 
 - **WHEN** se consulta cualquier tarea en cualquier momento
@@ -139,11 +144,6 @@ El sistema SHALL devolver siempre todas las tareas del espacio a cualquier perso
 - **WHEN** se pide la lista repetidas veces
 - **THEN** ninguna tarea cambia de estado ni de responsable
 
-#### Scenario: Sin orden garantizado
-
-- **WHEN** se pide la lista
-- **THEN** el sistema devuelve todas las tareas sin garantizar ningún orden concreto
-
 ### Requirement: Pantalla de la lista de tareas
 
 La aplicación SHALL ofrecer en la dirección `/tasks` la lista de tareas a las personas con sesión, mostrando en cada fila el título, el responsable por su nombre y el estado, sin necesidad de abrir la tarea. No SHALL mostrar fechas, marcas de vencida ni señales de presencia.
@@ -178,6 +178,11 @@ La aplicación SHALL ofrecer en la dirección `/tasks` la lista de tareas a las 
 - **WHEN** la lista se está cargando
 - **THEN** se indica que está cargando y no se muestra el estado vacío
 
+#### Scenario: Sesión rechazada con la pantalla abierta
+
+- **WHEN** el servidor rechaza la sesión (401) al cargar la lista, crear una tarea o cambiar un estado
+- **THEN** se descarta la sesión, se lleva a la persona al inicio de sesión y allí se le explica que su sesión ha caducado
+
 #### Scenario: Fallo al cargar
 
 - **WHEN** no se puede cargar la lista
@@ -209,7 +214,7 @@ La aplicación SHALL ofrecer un formulario cuyo único campo es el título, sin 
 #### Scenario: Creación correcta
 
 - **WHEN** escribe un título y pulsa «Crear tarea»
-- **THEN** la tarea aparece en la lista como Pendiente y con su propio nombre como responsable, el campo queda vacío y no ha cambiado de pantalla
+- **THEN** la tarea aparece al final de la lista como Pendiente y con su propio nombre como responsable, el campo queda vacío y no ha cambiado de pantalla
 
 #### Scenario: Envío en curso
 
@@ -238,7 +243,7 @@ La aplicación SHALL permitir cambiar el estado de cualquier tarea desde su prop
 #### Scenario: Cambio desde la fila
 
 - **WHEN** la persona elige otro estado en la fila de una tarea
-- **THEN** la fila muestra de inmediato el nuevo estado, sin diálogo de confirmación ni cambio de pantalla
+- **THEN** la fila muestra de inmediato el nuevo estado, sin diálogo de confirmación ni cambio de pantalla, y su selector queda desactivado hasta que llega la respuesta
 
 #### Scenario: Tarea de otra persona
 
