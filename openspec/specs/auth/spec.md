@@ -8,7 +8,7 @@ Cuentas y acceso de FlowSync: registro de personas usuarias, inicio y cierre de 
 
 ### Requirement: Registro de cuenta por API
 
-El sistema SHALL permitir crear una cuenta mediante una petición de registro con nombre completo (opcional, puede ser nulo), email, contraseña y confirmación de contraseña, y SHALL devolver la persona creada junto con un token de acceso, de modo que quede autenticada desde el primer momento.
+El sistema SHALL permitir crear una cuenta mediante una petición de registro con nombre completo (clave obligatoria, aunque su valor puede ser nulo), email, contraseña y confirmación de contraseña, y SHALL devolver la persona creada junto con un token de acceso, de modo que quede autenticada desde el primer momento.
 
 #### Scenario: Registro correcto
 
@@ -17,8 +17,13 @@ El sistema SHALL permitir crear una cuenta mediante una petición de registro co
 
 #### Scenario: Registro sin nombre
 
-- **WHEN** se envía un registro válido con el nombre completo a nulo
+- **WHEN** se envía un registro válido con el nombre completo a nulo o como cadena vacía
 - **THEN** la cuenta se crea y el usuario devuelto tiene el nombre completo a nulo
+
+#### Scenario: Email con distinta capitalización
+
+- **WHEN** se registra un email que solo difiere en mayúsculas de otro ya registrado
+- **THEN** se crea una cuenta distinta, porque la unicidad del email distingue mayúsculas
 
 #### Scenario: La contraseña nunca se devuelve
 
@@ -42,7 +47,7 @@ El sistema SHALL rechazar los registros inválidos con un error de validación (
 #### Scenario: Contraseña fuera de longitud
 
 - **WHEN** se envía un registro con una contraseña de menos de 8 o de más de 32 caracteres
-- **THEN** la respuesta es un 422 con un error sobre el campo `password`
+- **THEN** la respuesta es un 422 con un error sobre el campo `password`; si la confirmación tampoco cumple esa longitud, también con un error sobre `passwordConfirmation`
 
 #### Scenario: Confirmación distinta
 
@@ -99,7 +104,7 @@ El sistema SHALL devolver los datos de la persona autenticada cuando se solicita
 #### Scenario: Iniciales con nombre de dos o más palabras
 
 - **WHEN** el nombre completo tiene dos o más palabras, por ejemplo «Ada Lovelace»
-- **THEN** las iniciales son la primera letra de las dos primeras palabras en mayúsculas («AL»)
+- **THEN** las iniciales son la primera letra de las dos primeras palabras, separadas por un único espacio, en mayúsculas («AL»)
 
 #### Scenario: Iniciales con nombre de una sola palabra
 
@@ -118,7 +123,7 @@ El sistema SHALL revocar el token con el que se hace la petición de cierre de s
 #### Scenario: Cierre de sesión correcto
 
 - **WHEN** se solicita el cierre de sesión con un token válido
-- **THEN** la respuesta confirma el cierre con un mensaje y el token deja de ser aceptado
+- **THEN** la respuesta confirma el cierre con un mensaje fijo en inglés («Logged out successfully»), sin objeto `data`, y el token deja de ser aceptado
 
 #### Scenario: Token revocado reutilizado
 
@@ -132,7 +137,7 @@ El sistema SHALL revocar el token con el que se hace la petición de cierre de s
 
 ### Requirement: Respuestas siempre en JSON
 
-El sistema SHALL responder en JSON a todas las peticiones de la API, con independencia de la cabecera `Accept` enviada, y SHALL envolver las respuestas correctas de datos en un objeto `data`.
+El sistema SHALL responder en JSON a todas las peticiones de la API, con independencia de la cabecera `Accept` enviada, y SHALL envolver en un objeto `data` las respuestas correctas que devuelven datos (registro, inicio de sesión y perfil); la confirmación de cierre de sesión no va envuelta.
 
 #### Scenario: Petición que pide otro formato
 
@@ -199,7 +204,7 @@ La aplicación SHALL ofrecer un formulario de registro con los campos nombre com
 
 ### Requirement: Inicio de sesión desde la pantalla
 
-La aplicación SHALL ofrecer un formulario de inicio de sesión con email y contraseña y SHALL mostrar en un aviso destacado el motivo de cualquier fallo, en castellano.
+La aplicación SHALL ofrecer un formulario de inicio de sesión con email y contraseña y SHALL explicar en castellano el motivo de cualquier fallo: los de credenciales, conexión o servidor en un aviso destacado y los de validación junto al campo afectado.
 
 #### Scenario: Acceso correcto
 
@@ -215,6 +220,11 @@ La aplicación SHALL ofrecer un formulario de inicio de sesión con email y cont
 
 - **WHEN** el email o la contraseña no son correctos
 - **THEN** se muestra el aviso «El email o la contraseña no son correctos.» y la persona permanece en la pantalla
+
+#### Scenario: Campos vacíos o con formato inválido
+
+- **WHEN** el servidor rechaza el email o la contraseña por vacíos o mal formados
+- **THEN** el mensaje (por ejemplo «Introduce una dirección de email válida.» o «Falta rellenar la contraseña.») aparece junto a su campo y no en el aviso destacado
 
 #### Scenario: Servidor inalcanzable
 
@@ -276,12 +286,12 @@ La aplicación SHALL permitir cerrar sesión desde el perfil con el botón «Cer
 #### Scenario: Cierre correcto
 
 - **WHEN** la persona pulsa «Cerrar sesión»
-- **THEN** el botón muestra «Cerrando sesión…», la sesión se cierra y se la lleva a la pantalla de inicio de sesión sin aviso de error
+- **THEN** la sesión se cierra de inmediato y se la lleva a la pantalla de inicio de sesión sin aviso de error
 
 #### Scenario: Servidor no disponible al cerrar
 
 - **WHEN** la persona pulsa «Cerrar sesión» y la petición al servidor falla
-- **THEN** igualmente queda sin sesión local y es llevada al inicio de sesión
+- **THEN** igualmente queda sin sesión local y es llevada al inicio de sesión, aunque el token puede seguir siendo válido en el servidor
 
 #### Scenario: Sesión cerrada no se recupera
 
